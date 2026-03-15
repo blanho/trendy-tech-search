@@ -1,73 +1,115 @@
-# React + TypeScript + Vite
+# Trendy Tech Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A production-grade dashboard that aggregates trending tech content from multiple sources — similar to [HackerTab.dev](https://hackertab.dev/).
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript)
+![MUI](https://img.shields.io/badge/MUI-v6-007FFF?logo=mui)
+![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Multi-source feeds**: Hacker News, Reddit, Dev.to, GitHub Trending
+- **Drag-and-drop columns**: Reorder feed columns with DnD Kit
+- **Keyboard navigation**: Reddit-style shortcuts (j/k/h/l/o/s)
+- **Dark/Light mode**: Persistent theme toggle
+- **Bookmarks**: Save posts to localStorage
+- **Infinite scrolling**: Load more with intersection observer
+- **Search/filter**: Real-time filtering across all feeds
+- **Sort modes**: Score, Newest, Trending (weighted algorithm)
+- **Source customization**: Toggle sources on/off
+- **Compact/Grid views**: Switch between list and card layouts
+- **Loading skeletons**: Smooth loading states
+- **Error boundaries**: Graceful error handling
+- **Code splitting**: Lazy-loaded Dashboard page
+- **Responsive**: Mobile-first, works at 375px–1440px
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+| Category | Technology |
+|----------|-----------|
+| Framework | React 19 + TypeScript (strict) |
+| Build | Vite 6 |
+| UI Library | MUI (Material UI) v6 |
+| Data Fetching | TanStack Query v5 |
+| State Management | Zustand with persist middleware |
+| Drag & Drop | DnD Kit |
+| Fonts | Space Grotesk + DM Sans |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Architecture
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── api/           # API modules (hackernews, reddit, devto, github)
+├── components/    # Reusable UI components
+│   ├── Bookmarks/
+│   ├── EmptyState/
+│   ├── ErrorBoundary/
+│   ├── FeedColumn/
+│   ├── FeedItem/
+│   ├── KeyboardShortcuts/
+│   ├── Layout/
+│   ├── SearchBar/
+│   ├── Skeleton/
+│   ├── SourceIcon/
+│   └── StatusBar/
+├── hooks/         # Custom hooks (useHackerNews, useReddit, etc.)
+├── pages/         # Page components (Dashboard)
+├── store/         # Zustand stores (preferences, search)
+├── types/         # TypeScript types
+├── utils/         # Utility functions (date, ranking)
+├── theme.ts       # MUI theme configuration
+├── App.tsx        # Root component
+└── main.tsx       # Entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `j` | Move down |
+| `k` | Move up |
+| `h` | Move to left column |
+| `l` | Move to right column |
+| `o` / `Enter` | Open article |
+| `s` | Toggle bookmark |
+| `g` | Jump to top |
+| `G` | Jump to bottom |
+| `?` | Show shortcuts |
+
+## Trending Score Algorithm
+
+```
+trendScore = score × 0.6 + comments × 0.3 + recency × 0.1
+```
+
+Where recency is a 0–1 value based on how recent the post is (1 = just posted, 0 = 24h+ old).
+
+## Design System
+
+Built with the UI/UX Pro Max design system:
+
+- **Colors**: Dark tech palette (#0F172A bg, #22C55E accent)
+- **Typography**: Space Grotesk (headings) + DM Sans (body)
+- **Effects**: 200ms transitions, glassmorphism navbar
+- **Accessibility**: prefers-reduced-motion, WCAG contrast, keyboard nav
+
+## License
+
+MIT
