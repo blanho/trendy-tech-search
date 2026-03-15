@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
-import { CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material'
+import { lazy, Suspense, useMemo } from 'react'
+import { Box, CircularProgress, CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import '@fontsource/space-grotesk/400.css'
 import '@fontsource/space-grotesk/500.css'
@@ -10,7 +10,9 @@ import '@fontsource/dm-sans/500.css'
 import '@fontsource/dm-sans/700.css'
 import { darkTheme, lightTheme } from '@/theme'
 import { usePreferencesStore } from '@/store/preferencesStore'
-import Dashboard from '@/pages/Dashboard'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
+
+const Dashboard = lazy(() => import('@/pages/Dashboard'))
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,13 +50,31 @@ function App() {
   const theme = useMemo(() => (darkMode ? darkTheme : lightTheme), [darkMode])
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {globalStyles}
-        <Dashboard />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {globalStyles}
+          <Suspense
+            fallback={
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100vh',
+                  bgcolor: 'background.default',
+                }}
+              >
+                <CircularProgress color="primary" />
+              </Box>
+            }
+          >
+            <Dashboard />
+          </Suspense>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   )
 }
 
