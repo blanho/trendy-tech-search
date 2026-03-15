@@ -111,6 +111,7 @@ const FeedItemComponent = memo(function FeedItemComponent({
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               lineHeight: 1.4,
+              wordBreak: 'break-word',
             }}
           >
             {item.title}
@@ -195,6 +196,7 @@ const FeedItemComponent = memo(function FeedItemComponent({
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               lineHeight: 1.5,
+              wordBreak: 'break-word',
               mb: 1,
             }}
           >

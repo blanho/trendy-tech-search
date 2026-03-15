@@ -19,25 +19,21 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/proxy\/lobsters/, '/hottest.json'),
       },
-      '/api/proxy/hackernoon': {
-        target: 'https://hackernoon.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/proxy\/hackernoon/, ''),
-      },
       '/api/proxy/github': {
-        target: 'https://api.gitterapp.com',
+        target: 'https://api.github.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/proxy\/github/, '/repositories'),
+        rewrite: (path) => {
+          const url = new URL(path, 'http://localhost')
+          const since = url.searchParams.get('since') || 'daily'
+          const days = since === 'monthly' ? 30 : since === 'weekly' ? 7 : 1
+          const d = new Date(Date.now() - days * 86400000).toISOString().split('T')[0]
+          return `/search/repositories?q=${encodeURIComponent(`created:>${d} stars:>5`)}&sort=stars&order=desc&per_page=30`
+        },
       },
       '/api/proxy/producthunt': {
-        target: 'https://api.producthunt.com',
+        target: 'https://www.producthunt.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/proxy\/producthunt/, '/v1/posts'),
-      },
-      '/api/proxy/freecodecamp': {
-        target: 'https://www.freecodecamp.org',
-        changeOrigin: true,
-        rewrite: () => '/news/ghost/api/v3/content/posts/',
+        rewrite: () => '/feed',
       },
       '/api/proxy/hashnode': {
         target: 'https://gql.hashnode.com',

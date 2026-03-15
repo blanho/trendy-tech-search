@@ -34,8 +34,8 @@ interface PreferencesState {
 const DEFAULT_SOURCES: FeedSource[] = ['hackernews', 'reddit', 'devto', 'github']
 const ALL_SOURCES: FeedSource[] = [
   'hackernews', 'reddit', 'devto', 'github',
-  'lobsters', 'hashnode', 'producthunt', 'freecodecamp',
-  'hackernoon', 'stackoverflow', 'indiehackers',
+  'lobsters', 'hashnode', 'producthunt',
+  'stackoverflow', 'indiehackers',
 ]
 
 export const usePreferencesStore = create<PreferencesState>()(
@@ -86,6 +86,20 @@ export const usePreferencesStore = create<PreferencesState>()(
     }),
     {
       name: 'trendy-tech-preferences',
+      version: 2,
+      migrate: (persisted: unknown, version: number) => {
+        const state = persisted as Record<string, unknown>
+        if (version < 2) {
+          const removed = new Set(['freecodecamp', 'hackernoon'])
+          if (Array.isArray(state.enabledSources)) {
+            state.enabledSources = (state.enabledSources as string[]).filter((s) => !removed.has(s))
+          }
+          if (Array.isArray(state.columnOrder)) {
+            state.columnOrder = (state.columnOrder as string[]).filter((s) => !removed.has(s))
+          }
+        }
+        return state
+      },
       partialize: (state) => ({
         darkMode: state.darkMode,
         viewMode: state.viewMode,

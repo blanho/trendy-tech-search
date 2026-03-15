@@ -111,25 +111,6 @@ const ProductHuntIcon = memo(function ProductHuntIcon(props: SvgIconProps) {
   )
 })
 
-const FreeCodeCampIcon = memo(function FreeCodeCampIcon(props: SvgIconProps) {
-  return (
-    <SvgIcon {...props} viewBox="0 0 24 24">
-      <rect width="24" height="24" rx="4" fill="#0A0A23" />
-      <text
-        x="12"
-        y="16"
-        textAnchor="middle"
-        fill="#F1BE32"
-        fontSize="11"
-        fontWeight="bold"
-        fontFamily="monospace"
-      >
-        {String.raw`(\)`}
-      </text>
-    </SvgIcon>
-  )
-})
-
 const SourceIcon = memo(function SourceIcon({ source, ...props }: SourceIconProps) {
   switch (source) {
     case 'hackernews':
@@ -146,8 +127,6 @@ const SourceIcon = memo(function SourceIcon({ source, ...props }: SourceIconProp
       return <HashnodeIcon {...props} />
     case 'producthunt':
       return <ProductHuntIcon {...props} />
-    case 'freecodecamp':
-      return <FreeCodeCampIcon {...props} />
     default:
       return null
   }

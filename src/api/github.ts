@@ -2,18 +2,19 @@ import type { FeedItem } from '@/types/feed'
 import { fetchWithRetry } from '@/api/client'
 
 interface GithubRepo {
-  rank: number
-  repositoryName: string
-  username: string
-  url: string
-  description: string
-  language: string
-  languageColor: string
-  totalStars: number
-  forks: number
-  starsSince: number
-  since: string
-  builtBy: { username: string; url: string; avatar: string }[]
+  id: number
+  full_name: string
+  html_url: string
+  description: string | null
+  language: string | null
+  stargazers_count: number
+  forks_count: number
+  created_at: string
+  owner: {
+    login: string
+    avatar_url: string
+  }
+  topics?: string[]
 }
 
 const SOURCE = 'GitHub'
@@ -29,15 +30,15 @@ export async function fetchGithubTrending(
   const repos: GithubRepo[] = await res.json()
 
   return repos.map((repo) => ({
-    id: `github-${repo.username}-${repo.repositoryName}`,
-    title: `${repo.username}/${repo.repositoryName}`,
-    url: repo.url,
+    id: `github-${repo.id}`,
+    title: repo.full_name,
+    url: repo.html_url,
     source: 'github' as const,
-    score: repo.totalStars,
-    comments: repo.forks,
-    createdAt: new Date().toISOString(),
-    author: repo.username,
+    score: repo.stargazers_count,
+    comments: repo.forks_count,
+    createdAt: repo.created_at,
+    author: repo.owner.login,
     tags: repo.language ? [repo.language] : [],
-    thumbnail: repo.builtBy?.[0]?.avatar,
+    thumbnail: repo.owner.avatar_url,
   }))
 }

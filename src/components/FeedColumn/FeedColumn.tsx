@@ -150,7 +150,7 @@ const FeedColumn = memo(function FeedColumn({
 
           <SourceIcon source={source} sx={{ fontSize: 22 }} />
 
-          <Typography variant="subtitle1" fontWeight={700} sx={{ flex: 1 }}>
+          <Typography variant="subtitle1" fontWeight={700} noWrap sx={{ flex: 1, minWidth: 0 }}>
             {sourceConfig?.label ?? source}
           </Typography>
 

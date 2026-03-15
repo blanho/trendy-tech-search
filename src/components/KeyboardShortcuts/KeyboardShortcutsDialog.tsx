@@ -21,6 +21,8 @@ const shortcuts = [
   { keys: ['k'], description: 'Move up in current column' },
   { keys: ['h'], description: 'Move to left column' },
   { keys: ['l'], description: 'Move to right column' },
+  { keys: ['←'], description: 'Scroll columns left' },
+  { keys: ['→'], description: 'Scroll columns right' },
   { keys: ['o'], description: 'Open focused item' },
   { keys: ['Enter'], description: 'Open focused item' },
   { keys: ['s'], description: 'Toggle bookmark' },

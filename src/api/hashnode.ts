@@ -36,7 +36,7 @@ const GQL_ENDPOINT = '/api/proxy/hashnode'
 
 const FEED_QUERY = `
   query Feed($first: Int!, $after: String) {
-    feed(first: $first, after: $after, filter: FEATURED) {
+    feed(first: $first, after: $after) {
       edges {
         node {
           id
