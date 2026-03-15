@@ -23,6 +23,7 @@ import { useGithubTrending } from '@/hooks/useGithubTrending'
 import FeedColumn from '@/components/FeedColumn/FeedColumn'
 import DashboardLayout from '@/components/Layout/DashboardLayout'
 import BookmarksDrawer from '@/components/Bookmarks/BookmarksDrawer'
+import EmptyState from '@/components/EmptyState/EmptyState'
 import KeyboardShortcutsDialog from '@/components/KeyboardShortcuts/KeyboardShortcutsDialog'
 import StatusBar from '@/components/StatusBar/StatusBar'
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
@@ -175,6 +176,9 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout onShowBookmarks={() => setBookmarksOpen(true)}>
+      {visibleColumns.length === 0 ? (
+        <EmptyState type="no-sources" />
+      ) : (
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={visibleColumns} strategy={horizontalListSortingStrategy}>
           <Grid container spacing={2} sx={{ height: 'calc(100vh - 100px)' }}>
@@ -213,6 +217,7 @@ export default function Dashboard() {
           </Grid>
         </SortableContext>
       </DndContext>
+      )}
 
       <BookmarksDrawer open={bookmarksOpen} onClose={() => setBookmarksOpen(false)} />
       <KeyboardShortcutsDialog open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
