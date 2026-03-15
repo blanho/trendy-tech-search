@@ -17,10 +17,6 @@ interface LobstersStory {
 
 const SOURCE = 'Lobste.rs'
 
-/**
- * Fetch and normalize Lobste.rs hottest stories.
- * API docs: https://lobste.rs/about
- */
 export async function fetchLobsters(page = 1): Promise<FeedItem[]> {
   const res = await fetchWithRetry(
     `https://lobste.rs/hottest.json?page=${page}`,

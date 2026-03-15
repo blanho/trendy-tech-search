@@ -1,6 +1,4 @@
-/**
- * Custom API error class with status code and source context.
- */
+
 export class ApiError extends Error {
   readonly status: number
   readonly source: string
@@ -41,9 +39,6 @@ async function fetchOnce(
   }
 }
 
-/**
- * Fetch with timeout, retries, and typed error handling.
- */
 export async function fetchWithRetry(
   url: string,
   options: RequestInit & {

@@ -24,6 +24,9 @@ import { useLobsters } from '@/hooks/useLobsters'
 import { useHashnode } from '@/hooks/useHashnode'
 import { useProductHunt } from '@/hooks/useProductHunt'
 import { useFreeCodeCamp } from '@/hooks/useFreeCodeCamp'
+import { useHackerNoon } from '@/hooks/useHackerNoon'
+import { useStackOverflow } from '@/hooks/useStackOverflow'
+import { useIndieHackers } from '@/hooks/useIndieHackers'
 import FeedColumn from '@/components/FeedColumn/FeedColumn'
 import DashboardLayout from '@/components/Layout/DashboardLayout'
 import BookmarksDrawer from '@/components/Bookmarks/BookmarksDrawer'
@@ -33,7 +36,6 @@ import StatusBar from '@/components/StatusBar/StatusBar'
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
 import { useNotificationStore } from '@/store/notificationStore'
 
-// Sortable column wrapper
 function SortableColumn({
   id,
   children,
@@ -58,13 +60,13 @@ function SortableColumn({
 function getMdSize(count: number): number {
   if (count <= 2) return 6
   if (count <= 4) return 3
-  return 4 // 3-per-row for 5+ columns — scrolls horizontally
+  return 4
 }
 
 function getLgSize(count: number): number {
   if (count <= 4) return 12 / count
-  if (count <= 6) return 2 // 6-per-row
-  return 2 // still 6-per-row, will overflow and scroll
+  if (count <= 6) return 2
+  return 2
 }
 
 export default function Dashboard() {
@@ -73,14 +75,12 @@ export default function Dashboard() {
   const { enabledSources, columnOrder, setColumnOrder } = usePreferencesStore()
   const addToast = useNotificationStore((s) => s.addToast)
 
-  // DnD sensors
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 8 },
     }),
   )
 
-  // Fetch data for each source
   const hn = useHackerNews(enabledSources.includes('hackernews'))
   const reddit = useReddit(enabledSources.includes('reddit'))
   const devto = useDevto(enabledSources.includes('devto'))
@@ -89,8 +89,10 @@ export default function Dashboard() {
   const hashnode = useHashnode(enabledSources.includes('hashnode'))
   const producthunt = useProductHunt(0, enabledSources.includes('producthunt'))
   const freecodecamp = useFreeCodeCamp(enabledSources.includes('freecodecamp'))
+  const hackernoon = useHackerNoon(enabledSources.includes('hackernoon'))
+  const stackoverflow = useStackOverflow(enabledSources.includes('stackoverflow'))
+  const indiehackers = useIndieHackers(enabledSources.includes('indiehackers'))
 
-  // Map source to data
   const sourceDataMap = useMemo(
     () => ({
       hackernews: {
@@ -181,11 +183,43 @@ export default function Dashboard() {
         refetch: freecodecamp.refetch,
         dataUpdatedAt: freecodecamp.dataUpdatedAt,
       },
+      hackernoon: {
+        items: hackernoon.data?.pages.flat() ?? [],
+        isLoading: hackernoon.isLoading,
+        isError: hackernoon.isError,
+        error: hackernoon.error,
+        isFetchingNextPage: hackernoon.isFetchingNextPage,
+        hasNextPage: hackernoon.hasNextPage,
+        fetchNextPage: hackernoon.fetchNextPage,
+        refetch: hackernoon.refetch,
+        dataUpdatedAt: hackernoon.dataUpdatedAt,
+      },
+      stackoverflow: {
+        items: stackoverflow.data?.pages.flat() ?? [],
+        isLoading: stackoverflow.isLoading,
+        isError: stackoverflow.isError,
+        error: stackoverflow.error,
+        isFetchingNextPage: stackoverflow.isFetchingNextPage,
+        hasNextPage: stackoverflow.hasNextPage,
+        fetchNextPage: stackoverflow.fetchNextPage,
+        refetch: stackoverflow.refetch,
+        dataUpdatedAt: stackoverflow.dataUpdatedAt,
+      },
+      indiehackers: {
+        items: indiehackers.data?.pages.flat() ?? [],
+        isLoading: indiehackers.isLoading,
+        isError: indiehackers.isError,
+        error: indiehackers.error,
+        isFetchingNextPage: indiehackers.isFetchingNextPage,
+        hasNextPage: indiehackers.hasNextPage,
+        fetchNextPage: indiehackers.fetchNextPage,
+        refetch: indiehackers.refetch,
+        dataUpdatedAt: indiehackers.dataUpdatedAt,
+      },
     }),
-    [hn, reddit, devto, github, lobsters, hashnode, producthunt, freecodecamp],
+    [hn, reddit, devto, github, lobsters, hashnode, producthunt, freecodecamp, hackernoon, stackoverflow, indiehackers],
   )
 
-  // Visible columns based on enabled sources and order
   const visibleColumns = useMemo(
     () => columnOrder.filter((source) => enabledSources.includes(source)),
     [columnOrder, enabledSources],
@@ -216,7 +250,6 @@ export default function Dashboard() {
     [visibleColumns, sourceDataMap],
   )
 
-  // Keyboard navigation data
   const columnItemsForNav = useMemo(
     () =>
       visibleColumns.map((source) => ({
@@ -227,7 +260,6 @@ export default function Dashboard() {
   )
   useKeyboardNavigation(columnItemsForNav)
 
-  // Refresh all sources
   const handleRefreshAll = useCallback(() => {
     hn.refetch()
     reddit.refetch()
@@ -237,10 +269,12 @@ export default function Dashboard() {
     hashnode.refetch()
     producthunt.refetch()
     freecodecamp.refetch()
+    hackernoon.refetch()
+    stackoverflow.refetch()
+    indiehackers.refetch()
     addToast({ message: 'Refreshing all sources…', severity: 'info', duration: 2000 })
-  }, [hn, reddit, devto, github, lobsters, hashnode, producthunt, freecodecamp, addToast])
+  }, [hn, reddit, devto, github, lobsters, hashnode, producthunt, freecodecamp, hackernoon, stackoverflow, indiehackers, addToast])
 
-  // Listen for '?' to open shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.target as HTMLElement).matches('input,textarea,select')) return

@@ -18,9 +18,6 @@ interface GithubRepo {
 
 const SOURCE = 'GitHub'
 
-/**
- * Fetch and normalize GitHub trending repositories.
- */
 export async function fetchGithubTrending(
   since: 'daily' | 'weekly' | 'monthly' = 'daily',
 ): Promise<FeedItem[]> {
@@ -38,7 +35,7 @@ export async function fetchGithubTrending(
     source: 'github' as const,
     score: repo.totalStars,
     comments: repo.forks,
-    createdAt: new Date().toISOString(), // trending doesn't have created date
+    createdAt: new Date().toISOString(),
     author: repo.username,
     tags: repo.language ? [repo.language] : [],
     thumbnail: repo.builtBy?.[0]?.avatar,

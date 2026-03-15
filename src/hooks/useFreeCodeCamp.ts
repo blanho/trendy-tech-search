@@ -9,7 +9,7 @@ export function useFreeCodeCamp(enabled = true) {
       lastPage.length === 20 ? allPages.length + 1 : undefined,
     initialPageParam: 1,
     enabled,
-    staleTime: 10 * 60 * 1000, // 10 minutes
-    refetchInterval: 20 * 60 * 1000, // 20 minutes
+    staleTime: 10 * 60 * 1000,
+    refetchInterval: 20 * 60 * 1000,
   })
 }

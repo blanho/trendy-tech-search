@@ -18,25 +18,19 @@ interface PHPost {
 
 const SOURCE = 'Product Hunt'
 
-/**
- * Fetch and normalize Product Hunt daily trending products.
- *
- * Uses the public /posts endpoint which returns today's featured products.
- * No API key required for basic listing.
- */
 export async function fetchProductHunt(
   daysAgo = 0,
 ): Promise<FeedItem[]> {
-  // Use the public posts endpoint — returns today's or specified day's posts
+
   const date = new Date()
   date.setDate(date.getDate() - daysAgo)
-  const dateStr = date.toISOString().split('T')[0] // YYYY-MM-DD
+  const dateStr = date.toISOString().split('T')[0]
 
   const res = await fetchWithRetry(
     `https://api.producthunt.com/v1/posts?day=${dateStr}`,
     {
       source: SOURCE,
-      // Public endpoint, no auth needed for basic listing
+
       headers: {
         Accept: 'application/json',
       },

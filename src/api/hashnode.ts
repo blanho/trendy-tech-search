@@ -59,9 +59,6 @@ const FEED_QUERY = `
   }
 `
 
-/**
- * Fetch and normalize Hashnode featured articles via GraphQL.
- */
 export async function fetchHashnode(
   first = 20,
   after?: string,

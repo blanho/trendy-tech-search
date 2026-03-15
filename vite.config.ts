@@ -13,6 +13,18 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    proxy: {
+      '/api/proxy/lobsters': {
+        target: 'https://lobste.rs',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/proxy\/lobsters/, ''),
+      },
+      '/api/proxy/hackernoon': {
+        target: 'https://hackernoon.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/proxy\/hackernoon/, ''),
+      },
+    },
   },
   build: {
     sourcemap: true,

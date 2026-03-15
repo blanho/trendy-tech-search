@@ -1,15 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { usePreferencesStore } from '@/store/preferencesStore'
 
-/**
- * Keyboard navigation hook - Reddit-style shortcuts:
- * - j/k: Navigate items down/up
- * - h/l: Navigate columns left/right
- * - o/Enter: Open focused item
- * - s: Bookmark focused item
- * - r: Refresh current column
- * - ?: Show keyboard shortcuts help
- */
 export function useKeyboardNavigation(
   columnItems: { source: string; items: { url: string; id: string }[] }[],
 ) {
@@ -25,7 +16,7 @@ export function useKeyboardNavigation(
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      // Don't capture when typing in inputs
+
       const tag = (e.target as HTMLElement).tagName
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
 
@@ -33,27 +24,27 @@ export function useKeyboardNavigation(
       if (!currentColumn) return
 
       switch (e.key) {
-        case 'j': // Down
+        case 'j':
           e.preventDefault()
           setFocusedItem(Math.min(focusedItemIndex + 1, currentColumn.items.length - 1))
           break
 
-        case 'k': // Up
+        case 'k':
           e.preventDefault()
           setFocusedItem(Math.max(focusedItemIndex - 1, 0))
           break
 
-        case 'h': // Left column
+        case 'h':
           e.preventDefault()
           setFocusedColumn(Math.max(focusedColumnIndex - 1, 0))
           break
 
-        case 'l': // Right column
+        case 'l':
           e.preventDefault()
           setFocusedColumn(Math.min(focusedColumnIndex + 1, columnItems.length - 1))
           break
 
-        case 'o': // Open
+        case 'o':
         case 'Enter': {
           e.preventDefault()
           const item = currentColumn.items[focusedItemIndex]
@@ -63,26 +54,26 @@ export function useKeyboardNavigation(
           break
         }
 
-        case 's': { // Bookmark
+        case 's': {
           e.preventDefault()
           const item = currentColumn.items[focusedItemIndex]
           if (item) {
             if (isBookmarked(item.id)) {
               removeBookmark(item.id)
             } else {
-              // We need the full FeedItem to bookmark, so we cast
+
               addBookmark(item as Parameters<typeof addBookmark>[0])
             }
           }
           break
         }
 
-        case 'g': // Go to top
+        case 'g':
           e.preventDefault()
           setFocusedItem(0)
           break
 
-        case 'G': // Go to bottom
+        case 'G':
           e.preventDefault()
           setFocusedItem(currentColumn.items.length - 1)
           break

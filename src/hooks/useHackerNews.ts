@@ -8,7 +8,7 @@ export function useHackerNews(enabled = true) {
     getNextPageParam: (_lastPage, allPages) => allPages.length,
     initialPageParam: 0,
     enabled,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchInterval: 10 * 60 * 1000, // 10 minutes
+    staleTime: 5 * 60 * 1000,
+    refetchInterval: 10 * 60 * 1000,
   })
 }

@@ -10,7 +10,6 @@ interface LastUpdatedProps {
 const LastUpdated = memo(function LastUpdated({ dataUpdatedAt }: LastUpdatedProps) {
   const [, forceUpdate] = useReducer((x: number) => x + 1, 0)
 
-  // Re-render every 30s to update relative time
   useEffect(() => {
     const interval = setInterval(forceUpdate, 30_000)
     return () => clearInterval(interval)

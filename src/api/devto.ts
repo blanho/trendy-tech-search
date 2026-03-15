@@ -17,14 +17,11 @@ interface DevtoArticle {
 
 const SOURCE = 'Dev.to'
 
-/**
- * Fetch and normalize Dev.to top articles.
- */
 export async function fetchDevto(page = 1, perPage = 20): Promise<FeedItem[]> {
   const params = new URLSearchParams({
     per_page: perPage.toString(),
     page: page.toString(),
-    top: '7', // top of last 7 days
+    top: '7',
   })
 
   const res = await fetchWithRetry(`https://dev.to/api/articles?${params}`, {

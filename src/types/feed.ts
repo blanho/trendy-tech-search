@@ -21,6 +21,9 @@ export type FeedSource =
   | 'hashnode'
   | 'producthunt'
   | 'freecodecamp'
+  | 'hackernoon'
+  | 'stackoverflow'
+  | 'indiehackers'
 
 export type SortMode = 'score' | 'newest' | 'trending'
 
@@ -43,4 +46,7 @@ export const FEED_SOURCES: FeedSourceConfig[] = [
   { id: 'hashnode', label: 'Hashnode', icon: 'H', color: '#2962FF', enabled: false },
   { id: 'producthunt', label: 'Product Hunt', icon: 'P', color: '#DA552F', enabled: false },
   { id: 'freecodecamp', label: 'freeCodeCamp', icon: 'F', color: '#0A0A23', enabled: false },
+  { id: 'hackernoon', label: 'HackerNoon', icon: 'N', color: '#00FF00', enabled: false },
+  { id: 'stackoverflow', label: 'Stack Overflow', icon: 'S', color: '#F48024', enabled: false },
+  { id: 'indiehackers', label: 'Indie Hackers', icon: 'I', color: '#4F46E5', enabled: false },
 ]

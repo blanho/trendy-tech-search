@@ -1,15 +1,5 @@
 import { createTheme, type ThemeOptions } from '@mui/material/styles'
 
-/**
- * Design system colors from ui-ux-pro-max:
- * Primary:    #1E293B
- * Secondary:  #334155
- * CTA:        #22C55E
- * Background: #0F172A
- * Text:       #F8FAFC
- * Typography: Space Grotesk / DM Sans
- */
-
 const sharedOptions: ThemeOptions = {
   typography: {
     fontFamily: '"DM Sans", "Roboto", "Helvetica", "Arial", sans-serif',

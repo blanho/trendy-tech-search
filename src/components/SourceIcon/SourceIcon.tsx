@@ -148,6 +148,8 @@ const SourceIcon = memo(function SourceIcon({ source, ...props }: SourceIconProp
       return <ProductHuntIcon {...props} />
     case 'freecodecamp':
       return <FreeCodeCampIcon {...props} />
+    default:
+      return null
   }
 })
 

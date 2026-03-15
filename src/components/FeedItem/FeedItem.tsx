@@ -86,7 +86,7 @@ const FeedItemComponent = memo(function FeedItemComponent({
           },
         }}
       >
-        {/* Score */}
+        {}
         <Stack alignItems="center" sx={{ minWidth: 36, pt: 0.25 }}>
           <ScoreIcon sx={{ fontSize: 14, color: 'primary.main' }} />
           <Typography
@@ -99,7 +99,7 @@ const FeedItemComponent = memo(function FeedItemComponent({
           </Typography>
         </Stack>
 
-        {/* Content */}
+        {}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
             variant="body2"
@@ -143,7 +143,7 @@ const FeedItemComponent = memo(function FeedItemComponent({
           </Stack>
         </Box>
 
-        {/* Actions */}
+        {}
         <Tooltip title={bookmarked ? 'Remove bookmark' : 'Bookmark'}>
           <IconButton
             size="small"
@@ -166,7 +166,6 @@ const FeedItemComponent = memo(function FeedItemComponent({
     )
   }
 
-  // Card view
   return (
     <Card
       variant="outlined"
@@ -202,7 +201,7 @@ const FeedItemComponent = memo(function FeedItemComponent({
             {item.title}
           </Typography>
 
-          {/* Tags */}
+          {}
           {item.tags && item.tags.length > 0 && (
             <Stack direction="row" spacing={0.5} sx={{ mb: 1, flexWrap: 'wrap', gap: 0.5 }}>
               {item.tags.slice(0, 3).map((tag) => (
@@ -211,7 +210,7 @@ const FeedItemComponent = memo(function FeedItemComponent({
             </Stack>
           )}
 
-          {/* Meta row */}
+          {}
           <Stack
             direction="row"
             spacing={1.5}

@@ -60,7 +60,7 @@ const DashboardLayout = memo(function DashboardLayout({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* Floating Navbar */}
+      {}
       <AppBar
         position="fixed"
         elevation={0}
@@ -78,7 +78,7 @@ const DashboardLayout = memo(function DashboardLayout({
         }}
       >
         <Toolbar sx={{ gap: 1, minHeight: { xs: 56, md: 52 } }}>
-          {/* Logo */}
+          {}
           <Stack direction="row" alignItems="center" spacing={1} sx={{ mr: 2 }}>
             <Box
               component="img"
@@ -105,10 +105,10 @@ const DashboardLayout = memo(function DashboardLayout({
 
           <Box sx={{ flex: 1 }} />
 
-          {/* Search */}
+          {}
           <SearchBar />
 
-          {/* Refresh all */}
+          {}
           {onRefreshAll && (
             <Tooltip title="Refresh all sources (r)">
               <IconButton onClick={onRefreshAll} size="small" sx={{ cursor: 'pointer' }}>
@@ -117,7 +117,7 @@ const DashboardLayout = memo(function DashboardLayout({
             </Tooltip>
           )}
 
-          {/* View toggle */}
+          {}
           <Tooltip title={viewMode === 'compact' ? 'Grid view' : 'Compact view'}>
             <IconButton
               onClick={() => setViewMode(viewMode === 'compact' ? 'grid' : 'compact')}
@@ -132,7 +132,7 @@ const DashboardLayout = memo(function DashboardLayout({
             </IconButton>
           </Tooltip>
 
-          {/* Bookmarks */}
+          {}
           <Tooltip title="Bookmarks">
             <IconButton onClick={onShowBookmarks} size="small" sx={{ cursor: 'pointer' }}>
               <BookmarkIcon sx={{ fontSize: 20 }} />
@@ -154,7 +154,7 @@ const DashboardLayout = memo(function DashboardLayout({
             </IconButton>
           </Tooltip>
 
-          {/* Dark mode toggle */}
+          {}
           <Tooltip title={darkMode ? 'Light mode' : 'Dark mode'}>
             <IconButton onClick={toggleDarkMode} size="small" sx={{ cursor: 'pointer' }}>
               {darkMode ? (
@@ -165,7 +165,7 @@ const DashboardLayout = memo(function DashboardLayout({
             </IconButton>
           </Tooltip>
 
-          {/* Settings */}
+          {}
           <Tooltip title="Customize sources">
             <IconButton
               onClick={() => setSettingsOpen(true)}
@@ -182,7 +182,7 @@ const DashboardLayout = memo(function DashboardLayout({
         </Toolbar>
       </AppBar>
 
-      {/* Settings Drawer */}
+      {}
       <Drawer
         anchor="right"
         open={settingsOpen}
@@ -224,7 +224,7 @@ const DashboardLayout = memo(function DashboardLayout({
         </List>
       </Drawer>
 
-      {/* Main content */}
+      {}
       <Box
         component="main"
         sx={{

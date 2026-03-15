@@ -25,9 +25,6 @@ interface RedditResponse {
 
 const SOURCE = 'Reddit'
 
-/**
- * Fetch and normalize Reddit /r/programming top posts.
- */
 export async function fetchReddit(after?: string, limit = 20): Promise<{
   items: FeedItem[]
   after: string | null

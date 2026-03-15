@@ -32,15 +32,8 @@ interface FCCResponse {
 
 const SOURCE = 'freeCodeCamp'
 
-/**
- * Ghost Content API key for freeCodeCamp news.
- * This is a public read-only key embedded in their website's source.
- */
 const FCC_API_KEY = 'e1c2e68c9e795a2e402f7c70e3'
 
-/**
- * Fetch and normalize freeCodeCamp articles via Ghost Content API.
- */
 export async function fetchFreeCodeCamp(page = 1, limit = 20): Promise<FeedItem[]> {
   const params = new URLSearchParams({
     key: FCC_API_KEY,
@@ -63,8 +56,8 @@ export async function fetchFreeCodeCamp(page = 1, limit = 20): Promise<FeedItem[
     title: article.title,
     url: article.url || `https://www.freecodecamp.org/news/${article.slug}`,
     source: 'freecodecamp' as const,
-    score: article.reading_time ?? 0, // Use reading time as score proxy
-    comments: 0, // Ghost API doesn't expose comment count
+    score: article.reading_time ?? 0,
+    comments: 0,
     commentsUrl: article.url || `https://www.freecodecamp.org/news/${article.slug}`,
     createdAt: article.published_at,
     author: article.primary_author?.name,

@@ -1,7 +1,4 @@
-/**
- * Format a date string or timestamp to a relative time string.
- * e.g., "2 hours ago", "3 days ago"
- */
+
 export function formatRelativeTime(dateInput?: string | number): string {
   if (!dateInput) return ''
 
@@ -28,10 +25,6 @@ export function formatRelativeTime(dateInput?: string | number): string {
   return `${diffYears}y ago`
 }
 
-/**
- * Get recency score (0-1) based on how recent the item is.
- * 1 = just posted, 0 = older than 24 hours
- */
 export function getRecencyScore(dateInput?: string | number): number {
   if (!dateInput) return 0
 
@@ -40,6 +33,5 @@ export function getRecencyScore(dateInput?: string | number): number {
   const diffMs = now.getTime() - date.getTime()
   const hoursOld = diffMs / (1000 * 60 * 60)
 
-  // 0-1 scale where 0h = 1.0 and 24h+ = 0.0
   return Math.max(0, 1 - hoursOld / 24)
 }

@@ -15,18 +15,12 @@ interface HNStory {
 const BASE_URL = 'https://hacker-news.firebaseio.com/v0'
 const SOURCE = 'Hacker News'
 
-/**
- * Fetch top story IDs from Hacker News.
- */
 async function fetchTopStoryIds(limit = 30): Promise<number[]> {
   const res = await fetchWithRetry(`${BASE_URL}/topstories.json`, { source: SOURCE })
   const ids: number[] = await res.json()
   return ids.slice(0, limit)
 }
 
-/**
- * Fetch a single story by ID.
- */
 async function fetchStory(id: number): Promise<HNStory> {
   const res = await fetchWithRetry(`${BASE_URL}/item/${id}.json`, {
     source: SOURCE,
@@ -35,9 +29,6 @@ async function fetchStory(id: number): Promise<HNStory> {
   return res.json()
 }
 
-/**
- * Fetch and normalize Hacker News stories.
- */
 export async function fetchHackerNews(page = 0, pageSize = 20): Promise<FeedItem[]> {
   const offset = page * pageSize
   const ids = await fetchTopStoryIds(offset + pageSize)

@@ -73,7 +73,6 @@ const FeedColumn = memo(function FeedColumn({
   const isFocusedColumn = focusedColumnIndex === columnIndex
   const searchQuery = useSearchStore((s) => s.query)
 
-  // Filter and sort items
   const filteredItems = useMemo(() => {
     if (!searchQuery.trim()) return items
     const q = searchQuery.toLowerCase()
@@ -87,7 +86,6 @@ const FeedColumn = memo(function FeedColumn({
 
   const sortedItems = useMemo(() => sortFeedItems(filteredItems, sortMode), [filteredItems, sortMode])
 
-  // Infinite scroll trigger
   const { ref: infiniteScrollRef } = useInView({
     threshold: 0,
     onChange: (inView) => {
@@ -133,7 +131,7 @@ const FeedColumn = memo(function FeedColumn({
         transition: 'border-color 200ms ease',
       }}
     >
-      {/* Column Header */}
+      {}
       <Box
         sx={{
           px: 2,
@@ -145,7 +143,7 @@ const FeedColumn = memo(function FeedColumn({
         }}
       >
         <Stack direction="row" alignItems="center" spacing={1}>
-          {/* Drag handle */}
+          {}
           <Box {...dragHandleProps} sx={{ cursor: 'grab', display: 'flex', opacity: 0.5 }}>
             <DragIcon sx={{ fontSize: 18 }} />
           </Box>
@@ -173,7 +171,7 @@ const FeedColumn = memo(function FeedColumn({
           </Tooltip>
         </Stack>
 
-        {/* Sort controls */}
+        {}
         <ToggleButtonGroup
           value={sortMode}
           exclusive
@@ -198,7 +196,7 @@ const FeedColumn = memo(function FeedColumn({
 
       <Divider />
 
-      {/* Error state */}
+      {}
       {isError && (
         <Alert
           severity="error"
@@ -213,7 +211,7 @@ const FeedColumn = memo(function FeedColumn({
         </Alert>
       )}
 
-      {/* Feed items */}
+      {}
       <Box
         sx={{
           flex: 1,
@@ -248,7 +246,7 @@ const FeedColumn = memo(function FeedColumn({
           </Box>
         )}
 
-        {/* Infinite scroll trigger */}
+        {}
         {hasNextPage && (
           <Box ref={infiniteScrollRef} sx={{ p: 2, textAlign: 'center' }}>
             {isFetchingNextPage ? (

@@ -1,10 +1,6 @@
 import type { FeedItem } from '@/types/feed'
 import { getRecencyScore } from '@/utils/date'
 
-/**
- * Calculate trend score for a feed item.
- * Formula: score * 0.6 + comments * 0.3 + recency * 0.1
- */
 export function calculateTrendScore(item: FeedItem): number {
   const scoreVal = item.score ?? 0
   const commentsVal = item.comments ?? 0
@@ -13,9 +9,6 @@ export function calculateTrendScore(item: FeedItem): number {
   return scoreVal * 0.6 + commentsVal * 0.3 + recency * 0.1
 }
 
-/**
- * Sort feed items by the given mode.
- */
 export function sortFeedItems(
   items: FeedItem[],
   mode: 'score' | 'newest' | 'trending',
@@ -41,9 +34,6 @@ export function sortFeedItems(
   }
 }
 
-/**
- * Normalize a score to 0-100 range based on max score in the list.
- */
 export function normalizeScore(score: number, maxScore: number): number {
   if (maxScore === 0) return 0
   return Math.round((score / maxScore) * 100)
