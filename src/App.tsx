@@ -11,6 +11,7 @@ import '@fontsource/dm-sans/700.css'
 import { darkTheme, lightTheme } from '@/theme'
 import { usePreferencesStore } from '@/store/preferencesStore'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
+import ToastContainer from '@/components/Toast/ToastContainer'
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
 
@@ -72,6 +73,7 @@ function App() {
           >
             <Dashboard />
           </Suspense>
+          <ToastContainer />
         </ThemeProvider>
       </QueryClientProvider>
     </ErrorBoundary>
