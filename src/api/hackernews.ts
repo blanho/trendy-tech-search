@@ -1,4 +1,5 @@
 import type { FeedItem } from '@/types/feed'
+import { fetchWithRetry } from '@/api/client'
 
 interface HNStory {
   id: number
@@ -12,13 +13,13 @@ interface HNStory {
 }
 
 const BASE_URL = 'https://hacker-news.firebaseio.com/v0'
+const SOURCE = 'Hacker News'
 
 /**
  * Fetch top story IDs from Hacker News.
  */
 async function fetchTopStoryIds(limit = 30): Promise<number[]> {
-  const res = await fetch(`${BASE_URL}/topstories.json`)
-  if (!res.ok) throw new Error('Failed to fetch Hacker News top stories')
+  const res = await fetchWithRetry(`${BASE_URL}/topstories.json`, { source: SOURCE })
   const ids: number[] = await res.json()
   return ids.slice(0, limit)
 }
@@ -27,8 +28,10 @@ async function fetchTopStoryIds(limit = 30): Promise<number[]> {
  * Fetch a single story by ID.
  */
 async function fetchStory(id: number): Promise<HNStory> {
-  const res = await fetch(`${BASE_URL}/item/${id}.json`)
-  if (!res.ok) throw new Error(`Failed to fetch HN story ${id}`)
+  const res = await fetchWithRetry(`${BASE_URL}/item/${id}.json`, {
+    source: SOURCE,
+    maxRetries: 1,
+  })
   return res.json()
 }
 

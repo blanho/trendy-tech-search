@@ -1,4 +1,5 @@
 import type { FeedItem } from '@/types/feed'
+import { fetchWithRetry } from '@/api/client'
 
 interface DevtoArticle {
   id: number
@@ -14,6 +15,8 @@ interface DevtoArticle {
   cover_image?: string
 }
 
+const SOURCE = 'Dev.to'
+
 /**
  * Fetch and normalize Dev.to top articles.
  */
@@ -24,8 +27,9 @@ export async function fetchDevto(page = 1, perPage = 20): Promise<FeedItem[]> {
     top: '7', // top of last 7 days
   })
 
-  const res = await fetch(`https://dev.to/api/articles?${params}`)
-  if (!res.ok) throw new Error('Failed to fetch Dev.to articles')
+  const res = await fetchWithRetry(`https://dev.to/api/articles?${params}`, {
+    source: SOURCE,
+  })
 
   const articles: DevtoArticle[] = await res.json()
 

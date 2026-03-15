@@ -1,4 +1,5 @@
 import type { FeedItem } from '@/types/feed'
+import { fetchWithRetry } from '@/api/client'
 
 interface GithubRepo {
   rank: number
@@ -15,14 +16,18 @@ interface GithubRepo {
   builtBy: { username: string; url: string; avatar: string }[]
 }
 
+const SOURCE = 'GitHub'
+
 /**
  * Fetch and normalize GitHub trending repositories.
  */
 export async function fetchGithubTrending(
   since: 'daily' | 'weekly' | 'monthly' = 'daily',
 ): Promise<FeedItem[]> {
-  const res = await fetch(`https://ghapi.huchen.dev/repositories?since=${since}`)
-  if (!res.ok) throw new Error('Failed to fetch GitHub trending repos')
+  const res = await fetchWithRetry(
+    `https://ghapi.huchen.dev/repositories?since=${since}`,
+    { source: SOURCE },
+  )
 
   const repos: GithubRepo[] = await res.json()
 

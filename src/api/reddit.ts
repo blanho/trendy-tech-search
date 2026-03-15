@@ -1,4 +1,5 @@
 import type { FeedItem } from '@/types/feed'
+import { fetchWithRetry } from '@/api/client'
 
 interface RedditPost {
   data: {
@@ -22,6 +23,8 @@ interface RedditResponse {
   }
 }
 
+const SOURCE = 'Reddit'
+
 /**
  * Fetch and normalize Reddit /r/programming top posts.
  */
@@ -35,10 +38,13 @@ export async function fetchReddit(after?: string, limit = 20): Promise<{
   })
   if (after) params.set('after', after)
 
-  const res = await fetch(`https://www.reddit.com/r/programming/top.json?${params}`, {
-    headers: { 'User-Agent': 'TrendyTechSearch/1.0' },
-  })
-  if (!res.ok) throw new Error('Failed to fetch Reddit posts')
+  const res = await fetchWithRetry(
+    `https://www.reddit.com/r/programming/top.json?${params}`,
+    {
+      source: SOURCE,
+      headers: { 'User-Agent': 'TrendyTechSearch/1.0' },
+    },
+  )
 
   const data: RedditResponse = await res.json()
 
