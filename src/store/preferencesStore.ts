@@ -38,6 +38,10 @@ interface PreferencesState {
 }
 
 const DEFAULT_SOURCES: FeedSource[] = ['hackernews', 'reddit', 'devto', 'github']
+const ALL_SOURCES: FeedSource[] = [
+  'hackernews', 'reddit', 'devto', 'github',
+  'lobsters', 'hashnode', 'producthunt', 'freecodecamp',
+]
 
 export const usePreferencesStore = create<PreferencesState>()(
   persist(
@@ -69,7 +73,7 @@ export const usePreferencesStore = create<PreferencesState>()(
       setEnabledSources: (sources) => set({ enabledSources: sources }),
 
       // Column order
-      columnOrder: [...DEFAULT_SOURCES],
+      columnOrder: [...ALL_SOURCES],
       setColumnOrder: (order) => set({ columnOrder: order }),
 
       // Bookmarks

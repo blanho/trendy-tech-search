@@ -20,6 +20,10 @@ import { useHackerNews } from '@/hooks/useHackerNews'
 import { useReddit } from '@/hooks/useReddit'
 import { useDevto } from '@/hooks/useDevto'
 import { useGithubTrending } from '@/hooks/useGithubTrending'
+import { useLobsters } from '@/hooks/useLobsters'
+import { useHashnode } from '@/hooks/useHashnode'
+import { useProductHunt } from '@/hooks/useProductHunt'
+import { useFreeCodeCamp } from '@/hooks/useFreeCodeCamp'
 import FeedColumn from '@/components/FeedColumn/FeedColumn'
 import DashboardLayout from '@/components/Layout/DashboardLayout'
 import BookmarksDrawer from '@/components/Bookmarks/BookmarksDrawer'
@@ -53,8 +57,14 @@ function SortableColumn({
 
 function getMdSize(count: number): number {
   if (count <= 2) return 6
-  if (count === 3) return 4
-  return 3
+  if (count <= 4) return 3
+  return 4 // 3-per-row for 5+ columns — scrolls horizontally
+}
+
+function getLgSize(count: number): number {
+  if (count <= 4) return 12 / count
+  if (count <= 6) return 2 // 6-per-row
+  return 2 // still 6-per-row, will overflow and scroll
 }
 
 export default function Dashboard() {
@@ -75,6 +85,10 @@ export default function Dashboard() {
   const reddit = useReddit(enabledSources.includes('reddit'))
   const devto = useDevto(enabledSources.includes('devto'))
   const github = useGithubTrending('daily', enabledSources.includes('github'))
+  const lobsters = useLobsters(enabledSources.includes('lobsters'))
+  const hashnode = useHashnode(enabledSources.includes('hashnode'))
+  const producthunt = useProductHunt(0, enabledSources.includes('producthunt'))
+  const freecodecamp = useFreeCodeCamp(enabledSources.includes('freecodecamp'))
 
   // Map source to data
   const sourceDataMap = useMemo(
@@ -123,8 +137,52 @@ export default function Dashboard() {
         refetch: github.refetch,
         dataUpdatedAt: github.dataUpdatedAt,
       },
+      lobsters: {
+        items: lobsters.data?.pages.flat() ?? [],
+        isLoading: lobsters.isLoading,
+        isError: lobsters.isError,
+        error: lobsters.error,
+        isFetchingNextPage: lobsters.isFetchingNextPage,
+        hasNextPage: lobsters.hasNextPage,
+        fetchNextPage: lobsters.fetchNextPage,
+        refetch: lobsters.refetch,
+        dataUpdatedAt: lobsters.dataUpdatedAt,
+      },
+      hashnode: {
+        items: hashnode.data?.pages.flat() ?? [],
+        isLoading: hashnode.isLoading,
+        isError: hashnode.isError,
+        error: hashnode.error,
+        isFetchingNextPage: hashnode.isFetchingNextPage,
+        hasNextPage: hashnode.hasNextPage,
+        fetchNextPage: hashnode.fetchNextPage,
+        refetch: hashnode.refetch,
+        dataUpdatedAt: hashnode.dataUpdatedAt,
+      },
+      producthunt: {
+        items: producthunt.data ?? [],
+        isLoading: producthunt.isLoading,
+        isError: producthunt.isError,
+        error: producthunt.error,
+        isFetchingNextPage: false,
+        hasNextPage: false,
+        fetchNextPage: undefined,
+        refetch: producthunt.refetch,
+        dataUpdatedAt: producthunt.dataUpdatedAt,
+      },
+      freecodecamp: {
+        items: freecodecamp.data?.pages.flat() ?? [],
+        isLoading: freecodecamp.isLoading,
+        isError: freecodecamp.isError,
+        error: freecodecamp.error,
+        isFetchingNextPage: freecodecamp.isFetchingNextPage,
+        hasNextPage: freecodecamp.hasNextPage,
+        fetchNextPage: freecodecamp.fetchNextPage,
+        refetch: freecodecamp.refetch,
+        dataUpdatedAt: freecodecamp.dataUpdatedAt,
+      },
     }),
-    [hn, reddit, devto, github],
+    [hn, reddit, devto, github, lobsters, hashnode, producthunt, freecodecamp],
   )
 
   // Visible columns based on enabled sources and order
@@ -175,8 +233,12 @@ export default function Dashboard() {
     reddit.refetch()
     devto.refetch()
     github.refetch()
+    lobsters.refetch()
+    hashnode.refetch()
+    producthunt.refetch()
+    freecodecamp.refetch()
     addToast({ message: 'Refreshing all sources…', severity: 'info', duration: 2000 })
-  }, [hn, reddit, devto, github, addToast])
+  }, [hn, reddit, devto, github, lobsters, hashnode, producthunt, freecodecamp, addToast])
 
   // Listen for '?' to open shortcuts
   useEffect(() => {
@@ -209,7 +271,7 @@ export default function Dashboard() {
                     xs: 12,
                     sm: colCount <= 2 ? 6 : 12,
                     md: getMdSize(colCount),
-                    lg: 12 / Math.min(colCount, 4),
+                    lg: getLgSize(colCount),
                   }}
                 >
                   <SortableColumn id={source}>
