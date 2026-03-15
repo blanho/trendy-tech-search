@@ -27,6 +27,7 @@ import EmptyState from '@/components/EmptyState/EmptyState'
 import KeyboardShortcutsDialog from '@/components/KeyboardShortcuts/KeyboardShortcutsDialog'
 import StatusBar from '@/components/StatusBar/StatusBar'
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
+import { useNotificationStore } from '@/store/notificationStore'
 
 // Sortable column wrapper
 function SortableColumn({
@@ -60,6 +61,7 @@ export default function Dashboard() {
   const [bookmarksOpen, setBookmarksOpen] = useState(false)
 
   const { enabledSources, columnOrder, setColumnOrder } = usePreferencesStore()
+  const addToast = useNotificationStore((s) => s.addToast)
 
   // DnD sensors
   const sensors = useSensors(
@@ -86,6 +88,7 @@ export default function Dashboard() {
         hasNextPage: hn.hasNextPage,
         fetchNextPage: hn.fetchNextPage,
         refetch: hn.refetch,
+        dataUpdatedAt: hn.dataUpdatedAt,
       },
       reddit: {
         items: reddit.data?.pages.flat() ?? [],
@@ -96,6 +99,7 @@ export default function Dashboard() {
         hasNextPage: reddit.hasNextPage,
         fetchNextPage: reddit.fetchNextPage,
         refetch: reddit.refetch,
+        dataUpdatedAt: reddit.dataUpdatedAt,
       },
       devto: {
         items: devto.data?.pages.flat() ?? [],
@@ -106,6 +110,7 @@ export default function Dashboard() {
         hasNextPage: devto.hasNextPage,
         fetchNextPage: devto.fetchNextPage,
         refetch: devto.refetch,
+        dataUpdatedAt: devto.dataUpdatedAt,
       },
       github: {
         items: github.data ?? [],
@@ -116,6 +121,7 @@ export default function Dashboard() {
         hasNextPage: false,
         fetchNextPage: undefined,
         refetch: github.refetch,
+        dataUpdatedAt: github.dataUpdatedAt,
       },
     }),
     [hn, reddit, devto, github],
@@ -163,19 +169,31 @@ export default function Dashboard() {
   )
   useKeyboardNavigation(columnItemsForNav)
 
+  // Refresh all sources
+  const handleRefreshAll = useCallback(() => {
+    hn.refetch()
+    reddit.refetch()
+    devto.refetch()
+    github.refetch()
+    addToast({ message: 'Refreshing all sources…', severity: 'info', duration: 2000 })
+  }, [hn, reddit, devto, github, addToast])
+
   // Listen for '?' to open shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === '?' && !(e.target as HTMLElement).matches('input,textarea,select')) {
+      if ((e.target as HTMLElement).matches('input,textarea,select')) return
+      if (e.key === '?') {
         setShortcutsOpen(true)
+      } else if (e.key === 'r') {
+        handleRefreshAll()
       }
     }
     globalThis.addEventListener('keydown', handler)
     return () => globalThis.removeEventListener('keydown', handler)
-  }, [])
+  }, [handleRefreshAll])
 
   return (
-    <DashboardLayout onShowBookmarks={() => setBookmarksOpen(true)}>
+    <DashboardLayout onShowBookmarks={() => setBookmarksOpen(true)} onRefreshAll={handleRefreshAll}>
       {visibleColumns.length === 0 ? (
         <EmptyState type="no-sources" />
       ) : (
@@ -206,6 +224,7 @@ export default function Dashboard() {
                         hasNextPage={data.hasNextPage}
                         fetchNextPage={data.fetchNextPage}
                         refetch={data.refetch}
+                        dataUpdatedAt={data.dataUpdatedAt}
                         columnIndex={index}
                         dragHandleProps={dragHandleProps}
                       />

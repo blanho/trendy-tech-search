@@ -26,6 +26,7 @@ import { FEED_SOURCES } from '@/types/feed'
 import FeedItemComponent from '@/components/FeedItem/FeedItem'
 import { FeedColumnSkeleton } from '@/components/Skeleton/FeedItemSkeleton'
 import SourceIcon from '@/components/SourceIcon/SourceIcon'
+import LastUpdated from '@/components/LastUpdated/LastUpdated'
 import { usePreferencesStore } from '@/store/preferencesStore'
 import { useSearchStore } from '@/store/searchStore'
 import { sortFeedItems } from '@/utils/ranking'
@@ -40,6 +41,7 @@ interface FeedColumnProps {
   hasNextPage?: boolean
   fetchNextPage?: () => void
   refetch: () => void
+  dataUpdatedAt?: number
   columnIndex: number
   dragHandleProps?: Record<string, unknown>
 }
@@ -54,6 +56,7 @@ const FeedColumn = memo(function FeedColumn({
   hasNextPage,
   fetchNextPage,
   refetch,
+  dataUpdatedAt,
   columnIndex,
   dragHandleProps,
 }: FeedColumnProps) {
@@ -160,6 +163,8 @@ const FeedColumn = memo(function FeedColumn({
             variant="outlined"
             sx={{ height: 22, fontSize: 11 }}
           />
+
+          <LastUpdated dataUpdatedAt={dataUpdatedAt} />
 
           <Tooltip title="Refresh">
             <IconButton size="small" onClick={() => refetch()} sx={{ cursor: 'pointer' }}>
