@@ -27,14 +27,8 @@ export async function fetchProductHunt(
   const dateStr = date.toISOString().split('T')[0]
 
   const res = await fetchWithRetry(
-    `https://api.producthunt.com/v1/posts?day=${dateStr}`,
-    {
-      source: SOURCE,
-
-      headers: {
-        Accept: 'application/json',
-      },
-    },
+    `/api/proxy/producthunt?day=${dateStr}`,
+    { source: SOURCE },
   )
 
   const data = await res.json()

@@ -32,7 +32,7 @@ interface HashnodeResponse {
 }
 
 const SOURCE = 'Hashnode'
-const GQL_ENDPOINT = 'https://gql.hashnode.com'
+const GQL_ENDPOINT = '/api/proxy/hashnode'
 
 const FEED_QUERY = `
   query Feed($first: Int!, $after: String) {

@@ -22,7 +22,7 @@ export async function fetchGithubTrending(
   since: 'daily' | 'weekly' | 'monthly' = 'daily',
 ): Promise<FeedItem[]> {
   const res = await fetchWithRetry(
-    `https://ghapi.huchen.dev/repositories?since=${since}`,
+    `/api/proxy/github?since=${since}`,
     { source: SOURCE },
   )
 

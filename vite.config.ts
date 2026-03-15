@@ -17,12 +17,32 @@ export default defineConfig({
       '/api/proxy/lobsters': {
         target: 'https://lobste.rs',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/proxy\/lobsters/, ''),
+        rewrite: (path) => path.replace(/^\/api\/proxy\/lobsters/, '/hottest.json'),
       },
       '/api/proxy/hackernoon': {
         target: 'https://hackernoon.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/proxy\/hackernoon/, ''),
+      },
+      '/api/proxy/github': {
+        target: 'https://api.gitterapp.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/proxy\/github/, '/repositories'),
+      },
+      '/api/proxy/producthunt': {
+        target: 'https://api.producthunt.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/proxy\/producthunt/, '/v1/posts'),
+      },
+      '/api/proxy/freecodecamp': {
+        target: 'https://www.freecodecamp.org',
+        changeOrigin: true,
+        rewrite: () => '/news/ghost/api/v3/content/posts/',
+      },
+      '/api/proxy/hashnode': {
+        target: 'https://gql.hashnode.com',
+        changeOrigin: true,
+        rewrite: () => '/',
       },
     },
   },

@@ -32,20 +32,9 @@ interface FCCResponse {
 
 const SOURCE = 'freeCodeCamp'
 
-const FCC_API_KEY = 'e1c2e68c9e795a2e402f7c70e3'
-
 export async function fetchFreeCodeCamp(page = 1, limit = 20): Promise<FeedItem[]> {
-  const params = new URLSearchParams({
-    key: FCC_API_KEY,
-    page: page.toString(),
-    limit: limit.toString(),
-    include: 'tags,authors',
-    order: 'published_at desc',
-    fields: 'id,title,url,slug,feature_image,published_at,reading_time,excerpt',
-  })
-
   const res = await fetchWithRetry(
-    `https://www.freecodecamp.org/news/ghost/api/v3/content/posts/?${params}`,
+    `/api/proxy/freecodecamp?page=${page}&limit=${limit}`,
     { source: SOURCE },
   )
 
