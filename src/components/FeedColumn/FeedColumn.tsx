@@ -27,6 +27,7 @@ import FeedItemComponent from '@/components/FeedItem/FeedItem'
 import { FeedColumnSkeleton } from '@/components/Skeleton/FeedItemSkeleton'
 import SourceIcon from '@/components/SourceIcon/SourceIcon'
 import { usePreferencesStore } from '@/store/preferencesStore'
+import { useSearchStore } from '@/store/searchStore'
 import { sortFeedItems } from '@/utils/ranking'
 
 interface FeedColumnProps {
@@ -67,9 +68,21 @@ const FeedColumn = memo(function FeedColumn({
   const sourceConfig = FEED_SOURCES.find((s) => s.id === source)
   const isCompact = viewMode === 'compact'
   const isFocusedColumn = focusedColumnIndex === columnIndex
+  const searchQuery = useSearchStore((s) => s.query)
 
-  // Sort items
-  const sortedItems = useMemo(() => sortFeedItems(items, sortMode), [items, sortMode])
+  // Filter and sort items
+  const filteredItems = useMemo(() => {
+    if (!searchQuery.trim()) return items
+    const q = searchQuery.toLowerCase()
+    return items.filter(
+      (item) =>
+        item.title.toLowerCase().includes(q) ||
+        item.author?.toLowerCase().includes(q) ||
+        item.tags?.some((tag) => tag.toLowerCase().includes(q)),
+    )
+  }, [items, searchQuery])
+
+  const sortedItems = useMemo(() => sortFeedItems(filteredItems, sortMode), [filteredItems, sortMode])
 
   // Infinite scroll trigger
   const { ref: infiniteScrollRef } = useInView({

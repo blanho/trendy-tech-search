@@ -30,6 +30,7 @@ import {
 import { usePreferencesStore } from '@/store/preferencesStore'
 import { FEED_SOURCES } from '@/types/feed'
 import SourceIcon from '@/components/SourceIcon/SourceIcon'
+import SearchBar from '@/components/SearchBar/SearchBar'
 
 interface DashboardLayoutProps {
   children: ReactNode
@@ -100,6 +101,9 @@ const DashboardLayout = memo(function DashboardLayout({
           </Stack>
 
           <Box sx={{ flex: 1 }} />
+
+          {/* Search */}
+          <SearchBar />
 
           {/* View toggle */}
           <Tooltip title={viewMode === 'compact' ? 'Grid view' : 'Compact view'}>
