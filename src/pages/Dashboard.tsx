@@ -24,6 +24,7 @@ import FeedColumn from '@/components/FeedColumn/FeedColumn'
 import DashboardLayout from '@/components/Layout/DashboardLayout'
 import BookmarksDrawer from '@/components/Bookmarks/BookmarksDrawer'
 import KeyboardShortcutsDialog from '@/components/KeyboardShortcuts/KeyboardShortcutsDialog'
+import StatusBar from '@/components/StatusBar/StatusBar'
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
 
 // Sortable column wrapper
@@ -144,6 +145,12 @@ export default function Dashboard() {
   const colCount = visibleColumns.length
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
 
+  const totalItems = useMemo(
+    () =>
+      visibleColumns.reduce((acc, source) => acc + sourceDataMap[source].items.length, 0),
+    [visibleColumns, sourceDataMap],
+  )
+
   // Keyboard navigation data
   const columnItemsForNav = useMemo(
     () =>
@@ -209,6 +216,7 @@ export default function Dashboard() {
 
       <BookmarksDrawer open={bookmarksOpen} onClose={() => setBookmarksOpen(false)} />
       <KeyboardShortcutsDialog open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <StatusBar totalItems={totalItems} onShowShortcuts={() => setShortcutsOpen(true)} />
     </DashboardLayout>
   )
 }
