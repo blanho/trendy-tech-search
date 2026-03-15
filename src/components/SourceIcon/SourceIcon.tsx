@@ -69,6 +69,67 @@ const GithubIcon = memo(function GithubIcon(props: SvgIconProps) {
   )
 })
 
+const LobstersIcon = memo(function LobstersIcon(props: SvgIconProps) {
+  return (
+    <SvgIcon {...props} viewBox="0 0 24 24">
+      <rect width="24" height="24" rx="4" fill="#AC130D" />
+      <text
+        x="12"
+        y="17"
+        textAnchor="middle"
+        fill="white"
+        fontSize="14"
+        fontWeight="bold"
+        fontFamily="Arial"
+      >
+        {'{}'}
+      </text>
+    </SvgIcon>
+  )
+})
+
+const HashnodeIcon = memo(function HashnodeIcon(props: SvgIconProps) {
+  return (
+    <SvgIcon {...props} viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12" fill="#2962FF" />
+      <circle cx="12" cy="12" r="5.5" fill="white" />
+      <circle cx="12" cy="12" r="3" fill="#2962FF" />
+    </SvgIcon>
+  )
+})
+
+const ProductHuntIcon = memo(function ProductHuntIcon(props: SvgIconProps) {
+  return (
+    <SvgIcon {...props} viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12" fill="#DA552F" />
+      <path
+        d="M14.5 11.5C14.5 12.88 13.38 14 12 14H10V9H12C13.38 9 14.5 10.12 14.5 11.5Z"
+        fill="white"
+      />
+      <rect x="8" y="7.5" width="2" height="9" rx="0.5" fill="white" />
+    </SvgIcon>
+  )
+})
+
+const FreeCodeCampIcon = memo(function FreeCodeCampIcon(props: SvgIconProps) {
+  return (
+    <SvgIcon {...props} viewBox="0 0 24 24">
+      <rect width="24" height="24" rx="4" fill="#0A0A23" />
+      <text
+        x="12"
+        y="16"
+        textAnchor="middle"
+        fill="#F1BE32"
+        fontSize="11"
+        fontWeight="bold"
+        fontFamily="monospace"
+      >
+        {String.raw`(\)`}
+      </text>
+    </SvgIcon>
+  )
+})
+
 const SourceIcon = memo(function SourceIcon({ source, ...props }: SourceIconProps) {
   switch (source) {
     case 'hackernews':
@@ -79,6 +140,14 @@ const SourceIcon = memo(function SourceIcon({ source, ...props }: SourceIconProp
       return <DevtoIcon {...props} />
     case 'github':
       return <GithubIcon {...props} />
+    case 'lobsters':
+      return <LobstersIcon {...props} />
+    case 'hashnode':
+      return <HashnodeIcon {...props} />
+    case 'producthunt':
+      return <ProductHuntIcon {...props} />
+    case 'freecodecamp':
+      return <FreeCodeCampIcon {...props} />
   }
 })
 
