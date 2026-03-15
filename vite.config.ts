@@ -18,10 +18,16 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          mui: ['@mui/material', '@mui/icons-material'],
-          query: ['@tanstack/react-query'],
+        manualChunks(id: string) {
+          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) {
+            return 'vendor'
+          }
+          if (id.includes('node_modules/@mui')) {
+            return 'mui'
+          }
+          if (id.includes('node_modules/@tanstack')) {
+            return 'query'
+          }
         },
       },
     },
