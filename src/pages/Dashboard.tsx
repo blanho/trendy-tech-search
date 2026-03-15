@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Grid } from '@mui/material'
 import {
   DndContext,
@@ -23,6 +23,8 @@ import { useGithubTrending } from '@/hooks/useGithubTrending'
 import FeedColumn from '@/components/FeedColumn/FeedColumn'
 import DashboardLayout from '@/components/Layout/DashboardLayout'
 import BookmarksDrawer from '@/components/Bookmarks/BookmarksDrawer'
+import KeyboardShortcutsDialog from '@/components/KeyboardShortcuts/KeyboardShortcutsDialog'
+import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
 
 // Sortable column wrapper
 function SortableColumn({
@@ -140,6 +142,29 @@ export default function Dashboard() {
   )
 
   const colCount = visibleColumns.length
+  const [shortcutsOpen, setShortcutsOpen] = useState(false)
+
+  // Keyboard navigation data
+  const columnItemsForNav = useMemo(
+    () =>
+      visibleColumns.map((source) => ({
+        source,
+        items: sourceDataMap[source].items,
+      })),
+    [visibleColumns, sourceDataMap],
+  )
+  useKeyboardNavigation(columnItemsForNav)
+
+  // Listen for '?' to open shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === '?' && !(e.target as HTMLElement).matches('input,textarea,select')) {
+        setShortcutsOpen(true)
+      }
+    }
+    globalThis.addEventListener('keydown', handler)
+    return () => globalThis.removeEventListener('keydown', handler)
+  }, [])
 
   return (
     <DashboardLayout onShowBookmarks={() => setBookmarksOpen(true)}>
@@ -183,6 +208,7 @@ export default function Dashboard() {
       </DndContext>
 
       <BookmarksDrawer open={bookmarksOpen} onClose={() => setBookmarksOpen(false)} />
+      <KeyboardShortcutsDialog open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
     </DashboardLayout>
   )
 }
