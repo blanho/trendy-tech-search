@@ -24,6 +24,7 @@ import {
   GridView as GridIcon,
   LightMode as LightModeIcon,
   Menu as MenuIcon,
+  Refresh as RefreshIcon,
   Settings as SettingsIcon,
   ViewList as ListIcon,
 } from '@mui/icons-material'
@@ -35,11 +36,13 @@ import SearchBar from '@/components/SearchBar/SearchBar'
 interface DashboardLayoutProps {
   children: ReactNode
   onShowBookmarks: () => void
+  onRefreshAll?: () => void
 }
 
 const DashboardLayout = memo(function DashboardLayout({
   children,
   onShowBookmarks,
+  onRefreshAll,
 }: DashboardLayoutProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -104,6 +107,15 @@ const DashboardLayout = memo(function DashboardLayout({
 
           {/* Search */}
           <SearchBar />
+
+          {/* Refresh all */}
+          {onRefreshAll && (
+            <Tooltip title="Refresh all sources (r)">
+              <IconButton onClick={onRefreshAll} size="small" sx={{ cursor: 'pointer' }}>
+                <RefreshIcon sx={{ fontSize: 20 }} />
+              </IconButton>
+            </Tooltip>
+          )}
 
           {/* View toggle */}
           <Tooltip title={viewMode === 'compact' ? 'Grid view' : 'Compact view'}>

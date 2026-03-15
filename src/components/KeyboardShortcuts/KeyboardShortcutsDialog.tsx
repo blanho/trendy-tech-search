@@ -26,6 +26,7 @@ const shortcuts = [
   { keys: ['s'], description: 'Toggle bookmark' },
   { keys: ['g'], description: 'Jump to top' },
   { keys: ['G'], description: 'Jump to bottom' },
+  { keys: ['r'], description: 'Refresh all sources' },
   { keys: ['?'], description: 'Show this help' },
 ]
 
