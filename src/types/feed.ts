@@ -14,7 +14,6 @@ export interface FeedItem {
 
 export type FeedSource =
   | 'hackernews'
-  | 'reddit'
   | 'devto'
   | 'github'
   | 'lobsters'
@@ -37,7 +36,6 @@ export interface FeedSourceConfig {
 
 export const FEED_SOURCES: FeedSourceConfig[] = [
   { id: 'hackernews', label: 'Hacker News', icon: 'Y', color: '#FF6600', enabled: true },
-  { id: 'reddit', label: 'Reddit', icon: 'R', color: '#FF4500', enabled: true },
   { id: 'devto', label: 'Dev.to', icon: 'D', color: '#0A0A0A', enabled: true },
   { id: 'github', label: 'GitHub Trending', icon: 'G', color: '#238636', enabled: true },
   { id: 'lobsters', label: 'Lobste.rs', icon: 'L', color: '#AC130D', enabled: false },

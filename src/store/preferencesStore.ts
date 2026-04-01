@@ -31,9 +31,9 @@ interface PreferencesState {
   setFocusedItem: (index: number) => void
 }
 
-const DEFAULT_SOURCES: FeedSource[] = ['hackernews', 'reddit', 'devto', 'github']
+const DEFAULT_SOURCES: FeedSource[] = ['hackernews', 'devto', 'github']
 const ALL_SOURCES: FeedSource[] = [
-  'hackernews', 'reddit', 'devto', 'github',
+  'hackernews', 'devto', 'github',
   'lobsters', 'hashnode', 'producthunt',
   'stackoverflow', 'indiehackers',
 ]

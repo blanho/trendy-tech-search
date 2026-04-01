@@ -40,6 +40,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: () => '/',
       },
+      '/api/proxy/reddit': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path,
+      },
     },
   },
   build: {

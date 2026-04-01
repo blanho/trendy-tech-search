@@ -3,6 +3,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/api/proxy/hackernoon/(.*)", "destination": "/api/proxy/hackernoon/$1" }
+    { "source": "/api/proxy/stackoverflow", "destination": "/api/proxy/stackoverflow" }
   ]
 }

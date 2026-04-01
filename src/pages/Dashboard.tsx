@@ -17,7 +17,6 @@ import { CSS } from '@dnd-kit/utilities'
 import type { FeedSource } from '@/types/feed'
 import { usePreferencesStore } from '@/store/preferencesStore'
 import { useHackerNews } from '@/hooks/useHackerNews'
-import { useReddit } from '@/hooks/useReddit'
 import { useDevto } from '@/hooks/useDevto'
 import { useGithubTrending } from '@/hooks/useGithubTrending'
 import { useLobsters } from '@/hooks/useLobsters'
@@ -69,7 +68,6 @@ export default function Dashboard() {
   )
 
   const hn = useHackerNews(enabledSources.includes('hackernews'))
-  const reddit = useReddit(enabledSources.includes('reddit'))
   const devto = useDevto(enabledSources.includes('devto'))
   const github = useGithubTrending('daily', enabledSources.includes('github'))
   const lobsters = useLobsters(enabledSources.includes('lobsters'))
@@ -90,17 +88,6 @@ export default function Dashboard() {
         fetchNextPage: hn.fetchNextPage,
         refetch: hn.refetch,
         dataUpdatedAt: hn.dataUpdatedAt,
-      },
-      reddit: {
-        items: reddit.data?.pages.flat() ?? [],
-        isLoading: reddit.isLoading,
-        isError: reddit.isError,
-        error: reddit.error,
-        isFetchingNextPage: reddit.isFetchingNextPage,
-        hasNextPage: reddit.hasNextPage,
-        fetchNextPage: reddit.fetchNextPage,
-        refetch: reddit.refetch,
-        dataUpdatedAt: reddit.dataUpdatedAt,
       },
       devto: {
         items: devto.data?.pages.flat() ?? [],
@@ -180,7 +167,7 @@ export default function Dashboard() {
         dataUpdatedAt: indiehackers.dataUpdatedAt,
       },
     }),
-    [hn, reddit, devto, github, lobsters, hashnode, producthunt, stackoverflow, indiehackers],
+    [hn, devto, github, lobsters, hashnode, producthunt, stackoverflow, indiehackers],
   )
 
   const visibleColumns = useMemo(
@@ -254,7 +241,6 @@ export default function Dashboard() {
 
   const handleRefreshAll = useCallback(() => {
     hn.refetch()
-    reddit.refetch()
     devto.refetch()
     github.refetch()
     lobsters.refetch()
@@ -263,7 +249,7 @@ export default function Dashboard() {
     stackoverflow.refetch()
     indiehackers.refetch()
     addToast({ message: 'Refreshing all sources…', severity: 'info', duration: 2000 })
-  }, [hn, reddit, devto, github, lobsters, hashnode, producthunt, stackoverflow, indiehackers, addToast])
+  }, [hn, devto, github, lobsters, hashnode, producthunt, stackoverflow, indiehackers, addToast])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {

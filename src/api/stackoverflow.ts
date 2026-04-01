@@ -48,7 +48,7 @@ export async function fetchStackOverflow(
   })
 
   const res = await fetchWithRetry(
-    `https://api.stackexchange.com/2.3/questions?${params}`,
+    `/api/proxy/stackoverflow?${params}`,
     { source: SOURCE },
   )
 
