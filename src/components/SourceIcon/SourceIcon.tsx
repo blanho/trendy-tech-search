@@ -25,20 +25,6 @@ const HackerNewsIcon = memo(function HackerNewsIcon(props: SvgIconProps) {
   )
 })
 
-const RedditIcon = memo(function RedditIcon(props: SvgIconProps) {
-  return (
-    <SvgIcon {...props} viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="12" fill="#FF4500" />
-      <circle cx="12" cy="13" r="5" fill="white" />
-      <circle cx="10" cy="12.5" r="1" fill="#FF4500" />
-      <circle cx="14" cy="12.5" r="1" fill="#FF4500" />
-      <path d="M9.5 15.5c0 0 1 1.5 2.5 1.5s2.5-1.5 2.5-1.5" stroke="#FF4500" strokeWidth="0.8" fill="none" />
-      <circle cx="17.5" cy="7" r="1.5" fill="white" />
-      <path d="M12 4l4.5 3" stroke="white" strokeWidth="1.2" fill="none" />
-    </SvgIcon>
-  )
-})
-
 const DevtoIcon = memo(function DevtoIcon(props: SvgIconProps) {
   return (
     <SvgIcon {...props} viewBox="0 0 24 24">
@@ -115,8 +101,6 @@ const SourceIcon = memo(function SourceIcon({ source, ...props }: SourceIconProp
   switch (source) {
     case 'hackernews':
       return <HackerNewsIcon {...props} />
-    case 'reddit':
-      return <RedditIcon {...props} />
     case 'devto':
       return <DevtoIcon {...props} />
     case 'github':
